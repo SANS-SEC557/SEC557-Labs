@@ -9,8 +9,8 @@ Describe 'Tests for Ubuntu VM' {
         It 'Graphite schemas.conf is correct'{
             #ensure the file /opt/graphite/conf/storage-schemas.conf
             #has sha1 hash of cd6ef60b158b77f30e6faf34416a8096e415e142
-            sudo cat /opt/graphite/conf/storage-schemas.conf | sha1sum | 
-                Should -BeLike 'cd6ef60b158b77f30e6faf34416a8096e415e142*'
+            sudo cat /etc/carbon/storage-schemas.conf | sha1sum | 
+                Should -BeLike 'ff27d5ed3e33b0ae88e0baf562be4f070f345b85*'
         }
         It 'TCP port 2003 is open' {
             (sudo netstat -antp | grep -i 'listen' |
@@ -20,7 +20,7 @@ Describe 'Tests for Ubuntu VM' {
         It 'Whisper dump is installed'{
             #Ensure that this file exists:
             #/usr/local/bin/whisper-dump.py
-            Test-Path -path /usr/local/bin/whisper-dump.py -Pathtype Leaf | Should -beTrue
+            Test-Path -path /usr/bin/whisper-dump -Pathtype Leaf | Should -beTrue
         }
         #Grafana Setup
         It 'Grafana is listening on TCP port 3000' {
@@ -30,33 +30,37 @@ Describe 'Tests for Ubuntu VM' {
         }
         It 'Grafana Graphite datasource provisioning file is correct' {
             sudo cat /etc/grafana/provisioning/datasources/graphite.yaml | sha1sum | 
-            Should -BeLike '6faa4d640c92bb09ce595b7c6ae91ff1fb0d4074*'
-            #ensure the file /etc/grafana/provisioning/datasources/graphite.yaml
-            #has sha1 hash of 6faa4d640c92bb09ce595b7c6ae91ff1fb0d4074
+            Should -BeLike '79c4eb41a296bfc148edbf18a0dc20296088f600*'
         }
         It 'Grafana MySQL datasource provisioning file is correct' {
-            #ensure the file /etc/grafana/provisioning/datasources/mysql.yaml
-            #has sha1 hash of 535276379ad610283bbbaf14fd47cdf604d6f401
             (sudo cat /etc/grafana/provisioning/datasources/mysql.yaml | sha1sum) | 
-                Should -BeLike '535276379ad610283bbbaf14fd47cdf604d6f401*'
+                Should -BeLike '34c966b6d6665384ff474800d6f1dd34ce349068*'
         }
 
         #Fleet Setup
         It 'Fleet is listening on port 8443' {
-            $true | should -befalse
+            (sudo netstat -antp | grep -i 'listen' |
+                grep -c '.*8443.*fleet') | 
+                Should -Be 1
         }
 
         #Git status
         It 'Git is on correct branch' {
             #Match what we did on win 10 - including beforeall{}
             $gitStatus = (git status)
-            $gitStatus[0] | Should -Be 'On branch H01'
+            $gitStatus[0] | Should -Be 'On branch H02'
         }
 
         It 'OSQuery service is running' {
             systemctl status osqueryd.service | egrep -c "active \(running\)" |
                 Should -Be 1
         }
+
+        #TODO
+        It 'Version of inspec' {
+            true | Should -BeFalse
+        }
+
     }
     
     #Exercise 1.1 is all on the Win10 VM
@@ -109,11 +113,11 @@ Describe 'Tests for Ubuntu VM' {
             Remove-Item $basePath/inspec/ubuntu.json
         }
         It 'lsb_release returns correct value' {
-            lsb_release -d | Should -belike '*Ubuntu 20.04* LTS'
+            lsb_release -d | Should -belike '*Ubuntu 22.04* LTS'
         }
 
         It 'uname -r returns correct value' {
-            uname -r | Should -belike '5.4.0*-generic'
+            uname -r | Should -belike '5.15.0*-generic'
         }
 
         It 'sysctl syncookies value is correct' {
@@ -129,7 +133,7 @@ Describe 'Tests for Ubuntu VM' {
         }
 
         It 'Python version is correct' {
-            python3 -V | Should -belike '*3.8.10'
+            python3 -V | Should -belike '*3.10.4'
         }
 
         It 'Pester returns 2 passed tests' {
@@ -146,25 +150,25 @@ Describe 'Tests for Ubuntu VM' {
                 Should -BeGreaterOrEqual 1
         }
 
-        It 'Inspec benchmark on Ubuntu has 378 *failed* tests' {
+        It 'Inspec benchmark on Ubuntu has at least 300 *failed* tests' {
             ((Get-Content $basePath/inspec/ubuntu.json | 
                 ConvertFrom-Json).profiles.controls.results.status | 
                 Where-Object { $_ -eq 'failed' }).Count | 
-                Should -Be 378
+                Should -BeGreaterThan 300
         }
 
-        It 'Inspec benchmark on Ubuntu has 1228 *passed* tests' {
+        It 'Inspec benchmark on Ubuntu has at least 800 *passed* tests' {
              ((Get-Content $basePath/inspec/ubuntu.json | 
                 ConvertFrom-Json).profiles.controls.results.status | 
                 Where-Object { $_ -eq 'passed' }).Count | 
-                Should -Be 1228
+                Should -BeGreaterThan 800
         }
 
-        It 'Inspec benchmark on Ubuntu has 65 *skipped* tests' {
+        It 'Inspec benchmark on Ubuntu has at least 60 *skipped* tests' {
              ((Get-Content $basePath/inspec/ubuntu.json | 
                 ConvertFrom-Json).profiles.controls.results.status | 
                 Where-Object { $_ -eq 'skipped' }).Count | 
-                Should -Be 65
+                Should -BeGreaterThan 60
         }
     }
 

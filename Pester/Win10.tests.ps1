@@ -82,7 +82,7 @@ Describe 'Tests for Win10 VM' {
                 Should -Be 200
         }
         It 'Git is on correct branch' {
-            $gitStatus[0] | Should -Be 'On branch H01'
+            $gitStatus[0] | Should -Be 'On branch H02'
         }
     }
     Context 'Lab1.1'{
