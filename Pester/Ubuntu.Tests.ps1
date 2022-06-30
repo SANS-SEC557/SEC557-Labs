@@ -242,25 +242,25 @@ Describe 'Tests for Ubuntu VM' {
             $iam.PasswordReusePrevention | Should -Be 24
         }
 
-        It 'Inspec benchmark on AWS has 46 *failed* tests' {
+        It 'Inspec benchmark on AWS has at least 40 *failed* tests' {
             ((Get-Content $basePath/inspec/aws.json | 
                 ConvertFrom-Json).profiles.controls.results.status | 
                 Where-Object { $_ -eq 'failed' }).Count | 
-                Should -Be 46
+                Should -BeGreaterThan 40
         }
 
-        It 'Inspec benchmark on AWS has 65 *passed* tests' {
+        It 'Inspec benchmark on AWS has at least 40 *passed* tests' {
             ((Get-Content $basePath/inspec/aws.json | 
                 ConvertFrom-Json).profiles.controls.results.status | 
                 Where-Object { $_ -eq 'passed' }).Count | 
-                Should -Be 65
+                Should -BeGreaterThan 40
         }
 
-        It 'Inspec benchmark on AWS has 9 *skipped* tests' {
+        It 'Inspec benchmark on AWS has at least 5 *skipped* tests' {
             ((Get-Content $basePath/inspec/aws.json | 
                 ConvertFrom-Json).profiles.controls.results.status | 
                 Where-Object { $_ -eq 'skipped' }).Count | 
-                Should -Be 9
+                Should -BeGreaterThan 5
         }
     }
 
