@@ -647,6 +647,10 @@ resource "aws_s3_bucket_acl" "logbucketAcl" {
 #Cloud trail bucket
 data "aws_caller_identity" "current" {}
 
+output "account_id" {
+  value = data.aws_caller_identity.current.account_id
+}
+
 resource "aws_cloudtrail" "sec557cloudTrail" {
     name                          = "CloudTrail-sec557-com"
     s3_bucket_name                = aws_s3_bucket.CloudTrailBucket.id
