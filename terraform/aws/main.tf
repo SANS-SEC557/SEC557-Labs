@@ -474,11 +474,13 @@ resource "aws_cloudtrail" "sec557cloudTrail" {
     }
 }
 
-
-
 resource "aws_s3_bucket" "CloudTrailBucket" {
     force_destroy = true
+    bucket        = "CloudTrailBucket.${random_string.random.result}.sec557.com"
+}
 
+resource "aws_s3_bucket_policy" "CloudTrailBucketPolicy" {
+  bucket = aws_s3_bucket.CloudTrailBucket.id
     policy = <<POLICY
 {
     "Version": "2012-10-17",
@@ -490,7 +492,7 @@ resource "aws_s3_bucket" "CloudTrailBucket" {
             "Service": "cloudtrail.amazonaws.com"
             },
             "Action": "s3:GetBucketAcl",
-            "Resource": "arn:aws:s3:::${aws_s3_bucket.CloudTrailBucket.bucket}"
+            "Resource": "arn:aws:s3:::${aws_s3_bucket.CloudTrailBucket.arn}"
         },
         {
             "Sid": "AWSCloudTrailWrite",
@@ -499,7 +501,7 @@ resource "aws_s3_bucket" "CloudTrailBucket" {
             "Service": "cloudtrail.amazonaws.com"
             },
             "Action": "s3:PutObject",
-            "Resource": "arn:aws:s3:::${aws_s3_bucket.CloudTrailBucket.bucket}/prefix/AWSLogs/${data.aws_caller_identity.current.account_id}/*",
+            "Resource": "arn:aws:s3:::${aws_s3_bucket.CloudTrailBucket.arn}/prefix/AWSLogs/${data.aws_caller_identity.current.account_id}/*",
             "Condition": {
                 "StringEquals": {
                     "s3:x-amz-acl": "bucket-owner-full-control"
