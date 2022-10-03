@@ -418,7 +418,7 @@ resource "aws_instance" "webdev"{
 
 #S3 bucket with public read - set up by another dev
 resource "aws_s3_bucket" "webdevBucket" {
-    bucket = "s3-website-test.${random_string.random.result}.sec557.com"
+    #bucket = "s3-website-test.${random_string.random.result}.sec557.com"
     tags = {
         Name = "WebDevBucket"
     }
@@ -446,7 +446,7 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "webdevBucketEncry
  }
 
 resource "aws_s3_bucket" "logbucket" {
-  bucket = "logbucket.${random_string.random.result}.sec557.com"
+  #bucket = "logbucket.${random_string.random.result}.sec557.com"
 }
 
 resource "aws_s3_bucket_acl" "logbucketAcl" {
@@ -477,7 +477,7 @@ resource "aws_cloudtrail" "sec557cloudTrail" {
 
 resource "aws_s3_bucket" "CloudTrailBucket" {
     force_destroy = true
-    bucket        = "CloudTrailBucket.${random_string.random.result}.sec557.com"
+    #bucket        = "CloudTrailBucket.${random_string.random.result}.sec557.com"
 }
 
 resource "aws_s3_bucket_policy" "CloudTrailBucketPolicy" {
