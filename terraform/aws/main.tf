@@ -18,6 +18,7 @@ resource "random_string" "random" {
   lower   = true
   upper   = true
   numeric = true
+  special = false
 }
 
 # Users
