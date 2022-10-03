@@ -367,7 +367,7 @@ resource "aws_instance" "CustomerPortalWebserver"{
         "Business_Unit" = "Information Technology"
         "Classification" = "PII,PCI"
         "ProjectName" = "Customer Web Portal"
-        "ProjectID" = "IT2021-1234"
+        "ProjectID" = "IT2022-1234"
     }
 }
 
@@ -404,6 +404,14 @@ resource "aws_network_interface" "webdevNIC" {
     subnet_id = aws_subnet.Sec557WorkStationSubnet.id
     private_ips = ["10.55.7.15"]
 }
+
+resource "aws_eip" "webdevEIP" {
+  vpc                       = true
+  network_interface         = aws_network_interface.webdevNIC.id
+  associate_with_private_ip = "10.55.7.15"
+}
+
+
 resource "aws_instance" "webdev"{
     ami = "ami-09e67e426f25ce0d7"
     instance_type = "t2.micro"
@@ -415,6 +423,177 @@ resource "aws_instance" "webdev"{
         Name = "WebDev"
     }
 }
+
+
+###########################################################################################
+# HashiCat
+###########################################################################################
+
+
+
+# terraform {
+#   required_providers {
+#     aws = {
+#       source  = "hashicorp/aws"
+#       version = "=3.42.0"
+#     }
+#   }
+# }
+
+# provider "aws" {
+#   region  = var.region
+# }
+
+resource "aws_security_group" "hashicat" {
+  name = "hashicat-security-group"
+
+  vpc_id = aws_vpc.SEC557Main.id
+
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port       = 0
+    to_port         = 0
+    protocol        = "-1"
+    cidr_blocks     = ["0.0.0.0/0"]
+    prefix_list_ids = []
+  }
+}
+
+resource "aws_internet_gateway" "hashicat" {
+  vpc_id = aws_vpc.SEC557Main.id
+
+  tags = {
+  }
+}
+
+resource "aws_route_table" "hashicat" {
+  vpc_id = aws_vpc.SEC557Main.id
+
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.hashicat.id
+  }
+}
+
+resource "aws_route_table_association" "hashicat" {
+  subnet_id      = aws_subnet.Sec557TestSubnet.id
+  route_table_id = aws_route_table.hashicat.id
+}
+
+resource "aws_eip" "hashicat" {
+  instance = aws_instance.hashicat.id
+  vpc      = true
+}
+
+resource "aws_eip_association" "hashicat" {
+  instance_id   = aws_instance.hashicat.id
+  allocation_id = aws_eip.hashicat.id
+}
+
+resource "aws_instance" "hashicat" {
+  ami                         = "ami-09e67e426f25ce0d7"
+  instance_type               = "t2.micro"
+  key_name                    = aws_key_pair.hashicat.key_name
+  associate_public_ip_address = true
+  subnet_id                   = aws_subnet.Sec557TestSubnet.id
+  vpc_security_group_ids      = [aws_security_group.hashicat.id]
+
+  tags = {
+    Name = "Hashicat"
+  }
+}
+
+# We're using a little trick here so we can run the provisioner without
+# destroying the VM. Do not do this in production.
+
+# If you need ongoing management (Day N) of your virtual machines a tool such
+# as Chef or Puppet is a better choice. These tools track the state of
+# individual files and can keep them in the correct configuration.
+
+# Here we do the following steps:
+# Sync everything in files/ to the remote VM.
+# Set up some environment variables for our script.
+# Add execute permissions to our scripts.
+# Run the deploy_app.sh script.
+resource "null_resource" "configure-cat-app" {
+  depends_on = [aws_eip_association.hashicat]
+
+  triggers = {
+    build_number = timestamp()
+  }
+
+  provisioner "file" {
+    source      = "files/"
+    destination = "/home/ubuntu/"
+
+    connection {
+      type        = "ssh"
+      user        = "ubuntu"
+      private_key = tls_private_key.hashicat.private_key_pem
+      host        = aws_eip.hashicat.public_ip
+    }
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "sudo apt -y update",
+      "sleep 15",
+      "sudo apt -y update",
+      "sudo apt -y install apache2",
+      "sudo systemctl start apache2",
+      "sudo chown -R ubuntu:ubuntu /var/www/html",
+      "chmod +x *.sh",
+      "PLACEHOLDER=${var.placeholder} WIDTH=${var.width} HEIGHT=${var.height}  ./deploy_app.sh",
+      "sudo apt -y install cowsay",
+      "cowsay Mooooooooooo!",
+      "cat /var/www/html/index.html",
+      "ls -l /var/www/html/index.html"
+    ]
+
+    connection {
+      type        = "ssh"
+      user        = "ubuntu"
+      private_key = tls_private_key.hashicat.private_key_pem
+      host        = aws_eip.hashicat.public_ip
+    }
+  }
+}
+
+resource "tls_private_key" "hashicat" {
+  algorithm = "RSA"
+}
+
+locals {
+  private_key_filename = "hashicat-ssh-key.pem"
+}
+
+resource "aws_key_pair" "hashicat" {
+  key_name   = local.private_key_filename
+  public_key = tls_private_key.hashicat.public_key_openssh
+}
+
+
+###########################################################################################
 
 #S3 bucket with public read - set up by another dev
 resource "aws_s3_bucket" "webdevBucket" {
