@@ -50,7 +50,7 @@ resource "google_compute_instance" "hashicat" {
 
   boot_disk {
     initialize_params {
-      image = "ubuntu-os-cloud/ubuntu-1804-lts"
+      image = "ubuntu-os-cloud/ubuntu-2004-lts"
     }
   }
 
@@ -106,6 +106,8 @@ resource "null_resource" "configure-cat-app" {
       "PLACEHOLDER=${var.placeholder} WIDTH=${var.width} HEIGHT=${var.height} PREFIX=${var.prefix} ./deploy_app.sh",
       "sudo apt -y install cowsay",
       "cowsay Mooooooooooo!",
+      "cat /var/www/html/index.html",
+      "ls -l /var/www/html/index.html"
     ]
 
     connection {
