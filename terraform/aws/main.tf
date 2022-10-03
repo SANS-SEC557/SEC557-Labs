@@ -213,7 +213,7 @@ resource "aws_iam_user_login_profile" "sans5x7readonlyPassword" {
 }
 
 output "sans5x7readonlypassword" {
-  value = aws_iam_user_login_profile.example.encrypted_password
+  value = aws_iam_user_login_profile.sans5x7readonlyPassword.password
 }
 
 output "sans5x7readonlysecret" {
