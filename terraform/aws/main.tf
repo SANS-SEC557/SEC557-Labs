@@ -417,6 +417,7 @@ resource "aws_network_interface" "webdevNIC" {
 }
 
 resource "aws_eip" "webdevEIP" {
+  depends_on                = ["awsinstance.webdev"]
   vpc                       = true
   network_interface         = aws_network_interface.webdevNIC.id
   associate_with_private_ip = "10.55.7.15"
@@ -512,8 +513,9 @@ resource "aws_route_table_association" "hashicat" {
 }
 
 resource "aws_eip" "hashicat" {
-  instance = aws_instance.hashicat.id
-  vpc      = true
+  depends_on = ["awsinstance.hashicat"]
+  instance   = aws_instance.hashicat.id
+  vpc        = true
 }
 
 resource "aws_eip_association" "hashicat" {
