@@ -1,6 +1,7 @@
 
 provider "aws"{
     region = "us-east-1"
+    profile = "terraform"
 }
 
 terraform {
@@ -207,6 +208,14 @@ resource "aws_iam_access_key" "sans5x7readonly" {
   user = aws_iam_user.sans5x7readonly.name
 }
 
+resource "aws_iam_user_login_profile" "sans5x7readonlyPassword" {
+  user     = aws_iam_user.sans5x7readonly.name
+}
+
+output "sans5x7readonlypassword" {
+  value = aws_iam_user_login_profile.example.encrypted_password
+}
+
 output "sans5x7readonlysecret" {
   value = aws_iam_access_key.sans5x7readonly.secret
   sensitive = true
@@ -215,6 +224,8 @@ output "sans5x7readonlysecret" {
 output "sans5x7readonlyid" {
   value = aws_iam_access_key.sans5x7readonly.id
 }
+
+
 #cloudquery.io user
 resource "aws_iam_user" "cqio" {
   name = "cqio"
