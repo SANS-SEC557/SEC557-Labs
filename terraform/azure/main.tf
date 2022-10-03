@@ -372,7 +372,7 @@ resource "null_resource" "configure-cat-app" {
       "sudo systemctl start apache2",
       "sudo chown -R ${var.admin_username}:${var.admin_username} /var/www/html",
       "chmod +x *.sh",
-      "PLACEHOLDER=${var.placeholder} WIDTH=${var.width} HEIGHT=${var.height} PREFIX=${var.prefix} ./deploy_app.sh",
+      "/home/${var.admin_username}/deploy_app.sh",
       "sudo apt -y install cowsay",
       "cowsay Mooooooooooo!",
       "cat /var/www/html/index.html",

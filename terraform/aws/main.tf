@@ -418,7 +418,6 @@ resource "aws_instance" "webdev"{
 
 #S3 bucket with public read - set up by another dev
 resource "aws_s3_bucket" "webdevBucket" {
-    #bucket = "s3-website-test.${random_string.random.result}.sec557.com"
     tags = {
         Name = "WebDevBucket"
     }
@@ -446,7 +445,6 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "webdevBucketEncry
  }
 
 resource "aws_s3_bucket" "logbucket" {
-  #bucket = "logbucket.${random_string.random.result}.sec557.com"
 }
 
 resource "aws_s3_bucket_acl" "logbucketAcl" {
@@ -454,12 +452,11 @@ resource "aws_s3_bucket_acl" "logbucketAcl" {
   acl    = "log-delivery-write"
 }
 
-
 #Cloud trail bucket
 data "aws_caller_identity" "current" {}
 
 resource "aws_cloudtrail" "sec557cloudTrail" {
-    name                          = "CloudTrail-${random_string.random.result}-sec557-com"
+    name                          = "CloudTrail-sec557-com"
     s3_bucket_name                = aws_s3_bucket.CloudTrailBucket.id
     s3_key_prefix                 = "prefix"
     include_global_service_events = true
@@ -477,7 +474,6 @@ resource "aws_cloudtrail" "sec557cloudTrail" {
 
 resource "aws_s3_bucket" "CloudTrailBucket" {
     force_destroy = true
-    #bucket        = "CloudTrailBucket.${random_string.random.result}.sec557.com"
 }
 
 resource "aws_s3_bucket_policy" "CloudTrailBucketPolicy" {
@@ -493,7 +489,7 @@ resource "aws_s3_bucket_policy" "CloudTrailBucketPolicy" {
             "Service": "cloudtrail.amazonaws.com"
             },
             "Action": "s3:GetBucketAcl",
-            "Resource": "arn:aws:s3:::${aws_s3_bucket.CloudTrailBucket.arn}"
+            "Resource": "${aws_s3_bucket.CloudTrailBucket.arn}"
         },
         {
             "Sid": "AWSCloudTrailWrite",
@@ -502,7 +498,7 @@ resource "aws_s3_bucket_policy" "CloudTrailBucketPolicy" {
             "Service": "cloudtrail.amazonaws.com"
             },
             "Action": "s3:PutObject",
-            "Resource": "arn:aws:s3:::${aws_s3_bucket.CloudTrailBucket.arn}/prefix/AWSLogs/${data.aws_caller_identity.current.account_id}/*",
+            "Resource": "${aws_s3_bucket.CloudTrailBucket.arn}/prefix/AWSLogs/${data.aws_caller_identity.current.account_id}/*",
             "Condition": {
                 "StringEquals": {
                     "s3:x-amz-acl": "bucket-owner-full-control"
@@ -535,17 +531,3 @@ resource "aws_lambda_function" "LambdaCalculator" {
 
   runtime = "dotnetcore3.1"
 }
-
-# resource "aws_lambda_function" "test_lambda" {
-#   filename      = "MyFirstPSScript/MyFirstPSScript.zip"
-#   function_name = "MyFirstPSScript"
-#   role          = aws_iam_role.lambda_role.arn
-#   handler       = "MyFirstPSScript::MyFirstPSScript.Bootstrap::ExecuteFunction"
-
-#   # The filebase64sha256() function is available in Terraform 0.11.12 and later
-#   # For Terraform 0.11.11 and earlier, use the base64sha256() function and the file() function:
-#   # source_code_hash = "${base64sha256(file("lambda_function_payload.zip"))}"
-#   source_code_hash = filebase64sha256("MyFirstPSScript/MyFirstPSScript.zip")
-
-#   runtime = "dotnetcore3.1"
-# }
