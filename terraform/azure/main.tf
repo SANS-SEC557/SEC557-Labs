@@ -19,6 +19,16 @@ provider "azuread" {
   tenant_id = "9e7654e8-9d5b-42ab-a107-c1f3de434b0d"
 }
 
+# Random string for unique resources
+resource "random_string" "random" {
+  length  = 16
+  lower   = true
+  upper   = true
+  numeric = true
+  special = false
+}
+
+
 resource "azurerm_resource_group" "myresourcegroup" {
   name     = "${var.prefix}-rg"
   location = var.location
@@ -81,7 +91,7 @@ resource "azurerm_subnet" "subnettest" {
 
 ################## Storage ################################
 resource "azurerm_storage_account" "hashicatstorageaccount" {
-  name                     = "demostorageaccount"
+  name                     = "${random_string.random.result}"
   resource_group_name      = azurerm_resource_group.myresourcegroup.name
   location                 = azurerm_resource_group.myresourcegroup.location
   account_tier             = "Standard"
