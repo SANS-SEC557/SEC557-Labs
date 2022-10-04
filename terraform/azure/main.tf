@@ -388,49 +388,49 @@ resource "null_resource" "configure-cat-app" {
   }
 }
 
-  #@sanssec5x7.onmicrosoft.com
+#   #@sanssec5x7.onmicrosoft.com
 
-resource "azuread_user" "AMartinez" {
-  user_principal_name = "AMartinez@sanssec5x7.onmicrosoft.com"
-  display_name        = "A Martinez"
-  mail_nickname       = "AMartinez"
-  password            = "SecretP@sswd99!"
-}
+# resource "azuread_user" "AMartinez" {
+#   user_principal_name = "AMartinez@sanssec5x7.onmicrosoft.com"
+#   display_name        = "A Martinez"
+#   mail_nickname       = "AMartinez"
+#   password            = "SecretP@sswd99!"
+# }
 
-resource "azuread_user" "BSmith" {
-  user_principal_name = "BSmith@sanssec5x7.onmicrosoft.com"
-  display_name        = "B Smith"
-  mail_nickname       = "BSmith"
-  password            = "SecretP@sswd99!"
-}
+# resource "azuread_user" "BSmith" {
+#   user_principal_name = "BSmith@sanssec5x7.onmicrosoft.com"
+#   display_name        = "B Smith"
+#   mail_nickname       = "BSmith"
+#   password            = "SecretP@sswd99!"
+# }
 
-resource "azuread_user" "GLee" {
-  user_principal_name = "GLee@sanssec5x7.onmicrosoft.com"
-  display_name        = "G Lee"
-  mail_nickname       = "GLee"
-  password            = "SecretP@sswd99!"
-}
+# resource "azuread_user" "GLee" {
+#   user_principal_name = "GLee@sanssec5x7.onmicrosoft.com"
+#   display_name        = "G Lee"
+#   mail_nickname       = "GLee"
+#   password            = "SecretP@sswd99!"
+# }
 
-resource "azuread_user" "KJones" {
-  user_principal_name = "KJones@sanssec5x7.onmicrosoft.com"
-  display_name        = "K Jones"
-  mail_nickname       = "KJones"
-  password            = "SecretP@sswd99!"
-}
+# resource "azuread_user" "KJones" {
+#   user_principal_name = "KJones@sanssec5x7.onmicrosoft.com"
+#   display_name        = "K Jones"
+#   mail_nickname       = "KJones"
+#   password            = "SecretP@sswd99!"
+# }
 
-resource "azuread_user" "WAlexander" {
-  user_principal_name = "WAlexander@sanssec5x7.onmicrosoft.com"
-  display_name        = "W Alexander"
-  mail_nickname       = "WAlexander"
-  password            = "SecretP@sswd99!"
-}
+# resource "azuread_user" "WAlexander" {
+#   user_principal_name = "WAlexander@sanssec5x7.onmicrosoft.com"
+#   display_name        = "W Alexander"
+#   mail_nickname       = "WAlexander"
+#   password            = "SecretP@sswd99!"
+# }
 
-resource "azuread_user" "JAllen" {
-  user_principal_name = "JAllen@sanssec5x7.onmicrosoft.com"
-  display_name        = "J Allen"
-  mail_nickname       = "JAllen"
-  password            = "SecretP@sswd99!"
-}
+# resource "azuread_user" "JAllen" {
+#   user_principal_name = "JAllen@sanssec5x7.onmicrosoft.com"
+#   display_name        = "J Allen"
+#   mail_nickname       = "JAllen"
+#   password            = "SecretP@sswd99!"
+# }
 
 #manually provisioned, so we can watch terraform progress
 # resource "azuread_user" "readonly" {
