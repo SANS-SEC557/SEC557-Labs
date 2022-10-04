@@ -16,7 +16,7 @@ provider "azurerm" {
 }
 
 provider "azuread" {
-  tenant_id = "9e7654e8-9d5b-42ab-a107-c1f3de434b0d"
+  tenant_id = "2f11ddc1-0cd4-4138-849b-832f80c0b69e"
 }
 
 resource "azurerm_resource_group" "myresourcegroup" {
