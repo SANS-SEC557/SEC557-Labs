@@ -91,7 +91,8 @@ resource "azurerm_subnet" "subnettest" {
 
 ################## Storage ################################
 resource "azurerm_storage_account" "hashicatstorageaccount" {
-  name                     = "${random_string.random.result}"
+  name = "hashicatstorageaccount"
+  #name                     = "${random_string.random.result}"
   resource_group_name      = azurerm_resource_group.myresourcegroup.name
   location                 = azurerm_resource_group.myresourcegroup.location
   account_tier             = "Standard"
