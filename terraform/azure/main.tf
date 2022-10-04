@@ -21,9 +21,9 @@ provider "azuread" {
 
 # Random string for unique resources
 resource "random_string" "random" {
-  length  = 16
+  length  = 20
   lower   = true
-  upper   = true
+  upper   = false
   numeric = true
   special = false
 }
