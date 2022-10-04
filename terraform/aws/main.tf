@@ -653,6 +653,7 @@ output "account_id" {
 
 resource "aws_cloudtrail" "sec557cloudTrail" {
     name                          = "CloudTrail-sec557-com"
+    depends_on                    = [aws_s3_bucket_policy.CloudTrailBucketPolicy]
     s3_bucket_name                = aws_s3_bucket.CloudTrailBucket.id
     s3_key_prefix                 = "prefix"
     include_global_service_events = true
