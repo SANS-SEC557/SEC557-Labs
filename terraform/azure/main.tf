@@ -81,7 +81,7 @@ resource "azurerm_subnet" "subnettest" {
 
 ################## Storage ################################
 resource "azurerm_storage_account" "hashicatstorageaccount" {
-  #name                     = "hashicatstorageaccount"
+  name                     = "demostorageaccount"
   resource_group_name      = azurerm_resource_group.myresourcegroup.name
   location                 = azurerm_resource_group.myresourcegroup.location
   account_tier             = "Standard"
