@@ -394,7 +394,7 @@ resource "aws_network_interface" "CustomerPortalDBServerNIC" {
 
 resource "aws_instance" "CustomerPortalDBServer"{
     ami = "ami-09e67e426f25ce0d7"
-    instance_type = "t2.micro"
+    instance_type = "t3.nano"
         network_interface{
         network_interface_id = aws_network_interface.CustomerPortalDBServerNIC.id
         device_index = 0
