@@ -274,6 +274,37 @@ resource "aws_iam_group_policy_attachment" "cloudquery-readonly" {
   policy_arn = "arn:aws:iam::aws:policy/ReadOnlyAccess"
 }
 
+resource "aws_iam_group_policy_attachment" "cloudquery-cloudshell" {
+  group      = aws_iam_group.cloudquery.name
+  policy_arn = aws_iam_policy.cloudshell_policy.arn
+}
+
+resource "aws_iam_policy" "cloudshell_policy" {
+  name        = "Cloudshell-policy"
+  description = "Allow cloudshell access with no upload/download"
+  policy      = <<POLICY
+  {
+    "Version": "2012-10-17",
+    "Statement": [{
+        "Sid": "CloudShellUser",
+        "Effect": "Allow",
+        "Action": [
+            "cloudshell:*"
+        ],
+        "Resource": "*"
+    }, {
+        "Sid": "DenyUploadDownload",
+        "Effect": "Deny",
+        "Action": [
+            "cloudshell:GetFileDownloadUrls",
+            "cloudshell:GetFileUploadUrls"
+        ],
+        "Resource": "*"
+    }]
+  }
+  POLICY
+}
+
 #############################################
 # Password policy
 
