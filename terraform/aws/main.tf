@@ -283,7 +283,7 @@ resource "aws_iam_policy" "cloudshell_policy" {
   name        = "Cloudshell-policy"
   description = "Allow cloudshell access with no upload/download"
   policy      = <<POLICY
-  {
+{
     "Version": "2012-10-17",
     "Statement": [{
         "Sid": "CloudShellUser",
@@ -301,7 +301,7 @@ resource "aws_iam_policy" "cloudshell_policy" {
         ],
         "Resource": "*"
     }]
-  }
+}
   POLICY
 }
 
