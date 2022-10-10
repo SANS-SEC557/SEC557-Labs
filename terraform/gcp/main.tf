@@ -12,6 +12,12 @@ provider "google" {
   region  = var.region
 }
 
+#Service account for the project
+resource "google_service_account" "demosvcaccount" {
+  account_id   = "demosvcaccount"
+  display_name = "Demo Service Account"
+}
+
 resource "google_compute_network" "hashicat" {
   name                    = "${var.prefix}-vpc-${var.region}"
   auto_create_subnetworks = false
