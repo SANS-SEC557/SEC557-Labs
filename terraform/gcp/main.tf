@@ -18,6 +18,13 @@ resource "google_service_account" "demosvcaccount" {
   display_name = "Demo Service Account"
 }
 
+
+resource "google_project_iam_member" "datastore_owner_binding" {
+  project = "${var.project}"
+  role    = "roles/datastore.owner"
+  member  = "serviceAccount:${google_service_account.demosvcaccount.email}"
+}
+
 resource "google_compute_network" "hashicat" {
   name                    = "${var.prefix}-vpc-${var.region}"
   auto_create_subnetworks = false
@@ -75,7 +82,6 @@ resource "google_compute_instance" "hashicat" {
   labels = {
     name = "hashicat"
   }
-
 }
 
 resource "null_resource" "configure-cat-app" {
