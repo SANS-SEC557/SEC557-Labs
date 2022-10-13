@@ -187,7 +187,7 @@ resource "aws_iam_user_policy" "sans5x7ec2admin" {
   })
 }
 
-# 1.17 Support role to manage incidents with AWS support [AWSSupportAccess role]
+# 1.17 Support role to manage incidents with AWS support [AWSSupportAccess policy]
 # JAllen
 resource "aws_iam_user" "JAllen" {
   name = "JAllen"
@@ -196,6 +196,11 @@ resource "aws_iam_user" "JAllen" {
 
 resource "aws_iam_access_key" "JAllen" {
   user = aws_iam_user.JAllen.name
+}
+
+resource "aws_iam_user_policy_attachment" "jallen-support" {
+  user       = aws_iam_user.JAllen.name
+  policy_arn = "arn:aws:iam::aws:policy/AWSSupportAccess"
 }
 
 #student read-only user
@@ -329,10 +334,11 @@ resource "aws_accessanalyzer_analyzer" "sans5x7analyzer" {
 # VPCs
 
 resource "aws_vpc" "SEC557Main" {
-  cidr_block = "10.55.0.0/16"
-  tags = {
+    cidr_block = "10.55.0.0/16"
+    availability_zone = "us-east-1f"
+    tags = {
       Name = "SEC5X7 Main VPC"
-  }
+    }
 }
 
 resource "aws_subnet" "Sec557WorkStationSubnet" {
@@ -400,6 +406,7 @@ resource "aws_network_interface" "CustomerPortalWebServerNIC" {
 resource "aws_instance" "CustomerPortalWebserver"{
     ami = "ami-09e67e426f25ce0d7"
     instance_type = "t3.nano"
+    availability_zone = "us-east-1f"
     network_interface{
         network_interface_id = aws_network_interface.CustomerPortalWebServerNIC.id
         device_index = 0
