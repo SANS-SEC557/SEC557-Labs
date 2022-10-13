@@ -335,7 +335,6 @@ resource "aws_accessanalyzer_analyzer" "sans5x7analyzer" {
 
 resource "aws_vpc" "SEC557Main" {
     cidr_block = "10.55.0.0/16"
-    availability_zone = "us-east-1f"
     tags = {
       Name = "SEC5X7 Main VPC"
     }
@@ -433,7 +432,8 @@ resource "aws_network_interface" "CustomerPortalDBServerNIC" {
 resource "aws_instance" "CustomerPortalDBServer"{
     ami = "ami-09e67e426f25ce0d7"
     instance_type = "t3.nano"
-        network_interface{
+    availability_zone = "us-east-1f"
+    network_interface{
         network_interface_id = aws_network_interface.CustomerPortalDBServerNIC.id
         device_index = 0
     }
