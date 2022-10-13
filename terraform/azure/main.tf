@@ -443,7 +443,7 @@ resource "azuread_user" "JAllen" {
   password            = "SecretP@sswd99!"
 }
 
-manually provisioned, so we can watch terraform progress
+#manually provisioned, so we can watch terraform progress
 resource "azuread_user" "readonly" {
   user_principal_name = "readonly@sanssec5x7.onmicrosoft.com"
   display_name        = "Read Only"
