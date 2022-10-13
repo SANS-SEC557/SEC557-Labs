@@ -405,7 +405,6 @@ resource "aws_network_interface" "CustomerPortalWebServerNIC" {
 resource "aws_instance" "CustomerPortalWebserver"{
     ami = "ami-09e67e426f25ce0d7"
     instance_type = "t3.nano"
-    availability_zone = "us-east-1f"
     network_interface{
         network_interface_id = aws_network_interface.CustomerPortalWebServerNIC.id
         device_index = 0
@@ -432,7 +431,6 @@ resource "aws_network_interface" "CustomerPortalDBServerNIC" {
 resource "aws_instance" "CustomerPortalDBServer"{
     ami = "ami-09e67e426f25ce0d7"
     instance_type = "t3.nano"
-    availability_zone = "us-east-1f"
     network_interface{
         network_interface_id = aws_network_interface.CustomerPortalDBServerNIC.id
         device_index = 0
