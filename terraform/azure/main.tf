@@ -453,9 +453,10 @@ resource "azuread_user" "readonly" {
   force_password_change       = "false"
 }
 
-resource "azuread_user" "" {
-  user_principal_name = "@sanssec5x7.onmicrosoft.com"
-  display_name        = ""
-  mail_nickname       = ""
-  password            = "SecretP@sswd99!"
-}
+## Template for users:
+# # resource "azuread_user" "" {
+# #   user_principal_name = "@sanssec5x7.onmicrosoft.com"
+# #   display_name        = ""
+# #   mail_nickname       = ""
+# #   password            = "SecretP@sswd99!"
+# # }
