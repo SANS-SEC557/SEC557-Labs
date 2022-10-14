@@ -444,14 +444,14 @@ resource "azuread_user" "JAllen" {
 }
 
 #manually provisioned, so we can watch terraform progress
-resource "azuread_user" "readonly" {
-  user_principal_name = "readonly@sanssec5x7.onmicrosoft.com"
-  display_name        = "Read Only"
-  mail_nickname       = "readonly"
-  password            = "SansSecretPassword!"
-  disable_password_expiration = "true"
-  force_password_change       = "false"
-}
+# resource "azuread_user" "readonly" {
+#   user_principal_name = "readonly@sanssec5x7.onmicrosoft.com"
+#   display_name        = "Read Only"
+#   mail_nickname       = "readonly"
+#   password            = "SansSecretPassword!"
+#   disable_password_expiration = "true"
+#   force_password_change       = "false"
+# }
 
 ## Template for users:
 # # resource "azuread_user" "" {
