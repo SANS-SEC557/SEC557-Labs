@@ -343,6 +343,7 @@ resource "aws_vpc" "SEC557Main" {
 resource "aws_subnet" "Sec557WorkStationSubnet" {
     vpc_id     = aws_vpc.SEC557Main.id
     cidr_block = "10.55.7.0/26"
+    availability_zone = "us-east-1c"
 
     tags = {
         Name = "Sec5X7WorkstationSubnet"
@@ -353,6 +354,7 @@ resource "aws_subnet" "Sec557WorkStationSubnet" {
 resource "aws_subnet" "Sec557ServerSubnet" {
     vpc_id     = aws_vpc.SEC557Main.id
     cidr_block = "10.55.7.64/26"
+    availability_zone = "us-east-1c"
 
     tags = {
         Name = "Sec5X7ServerSubnet"
@@ -362,6 +364,7 @@ resource "aws_subnet" "Sec557ServerSubnet" {
 resource "aws_subnet" "Sec557ManagementSubnet" {
     vpc_id     = aws_vpc.SEC557Main.id
     cidr_block = "10.55.7.128/26"
+    availability_zone = "us-east-1c"
 
     tags = {
         Name = "Sec5X7ManagementSubnet"
@@ -372,6 +375,7 @@ resource "aws_subnet" "Sec557ManagementSubnet" {
 resource "aws_subnet" "Sec557TestSubnet" {
     vpc_id     = aws_vpc.SEC557Main.id
     cidr_block = "10.55.7.192/26"
+    availability_zone = "us-east-1c"
 
     tags = {
         Name = "Sec5X7TestSubnet"
