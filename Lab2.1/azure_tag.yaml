@@ -4,3 +4,13 @@ policies:
   resource: azure.vm
   filters:
     - "tag:business_unit": absent
+
+- name: azure-vnet-tag-compliance
+  resource: azure.vnet
+  filters:
+    - "tag:business_unit": absent
+
+- name: azure-storage-tag-compliance
+  resource: azure.storage
+  filters:
+    - "tag:business_unit": absent
