@@ -1,0 +1,4 @@
+- name: azure-vm-tag-compliance
+  resource: azure.vm
+  filters:
+    - "tag:business_unit": absent
