@@ -305,7 +305,16 @@ resource "aws_iam_policy" "cloudshell_policy" {
             "cloudshell:GetFileUploadUrls"
         ],
         "Resource": "*"
-    }]
+    },{
+            "Effect": "Allow",
+            "Action": "trustedadvisor:Describe*",
+            "Resource": "*"
+    },{
+            "Effect": "Allow",
+            "Action": "trustedadvisor:RefreshCheck",
+            "Resource": "*"
+    }
+  ]
 }
   POLICY
 }

@@ -1,0 +1,12 @@
+policies:
+ - name: aws-ingress-admin-ports-allowed
+   resource: aws.security-group
+   filters:
+     - type: ingress
+       ports: '22'
+       access: 'Allow'
+       source: '*'
+     - type: ingress
+       ports: '3389'
+       access: 'Allow'
+       source: '*'  
