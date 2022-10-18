@@ -5,8 +5,6 @@ param(
     $epochTime = (Get-Date -AsUTC -UFormat %s)
 )
 
-"Missing Tag Report"
-"==============================="
 foreach( $filespec in Get-ChildItem ./$StartDir/*/resources.json -Recurse ) { 
     $resourceName = ($filespec.DirectoryName) -replace ".*\/" , '' -replace '-tag-compliance'
     $resourceCount = (Get-Content $filespec.FullName | ConvertFrom-Json).Count
