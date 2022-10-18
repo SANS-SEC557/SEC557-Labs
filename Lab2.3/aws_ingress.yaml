@@ -3,10 +3,10 @@ policies:
    resource: aws.security-group
    filters:
      - type: ingress
-       ports: '22'
-       access: 'Allow'
-       source: '*'
+       Ports: [22,3389]
+       Cidr:
+         value: "0.0.0.0/0"
      - type: ingress
-       ports: '3389'
-       access: 'Allow'
-       source: '*'  
+       Ports: [22,3389]
+       CidrV6:
+         value: "::0"    
