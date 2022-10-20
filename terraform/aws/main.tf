@@ -319,6 +319,15 @@ resource "aws_iam_policy" "cloudshell_policy" {
   POLICY
 }
 
+
+# resource "aws_iam_role" "auditrole" {
+#   name = "Audit5X7Range"
+#   path = "/Sec5X7"
+#   managed_policy_arns = ["arn:aws:iam::aws:policy/ReadOnlyAccess"]
+# }
+
+#"arn:aws:iam::aws:policy/ReadOnlyAccess"
+
 #############################################
 # Password policy
 
@@ -662,6 +671,16 @@ resource "aws_s3_bucket" "webdevBucket" {
     tags = {
         Name = "WebDevBucket"
     }
+}
+
+
+resource "aws_s3_bucket_public_access_block" "webdevBucketAccessBlock" {
+  bucket = aws_s3_bucket.webdevBucket.id
+
+  block_public_acls       = false
+  block_public_policy     = false
+  ignore_public_acls      = false
+  restrict_public_buckets = false
 }
 
 resource "aws_s3_bucket_acl" "webdevBucketAcl" {
