@@ -21,7 +21,7 @@ LOOP
 	END IF;
 	-- create an SQL query to select from table and transform it into our resources view schema
 	strSQL = strSQL || FORMAT('
-        select _cq_id, _cq_source_name, _cq_sync_time, %L as _cq_table, account_id, %s as region, arn, %s as tags
+        select _cq_id, %L as _cq_table, account_id, %s as region, arn, %s as tags
         FROM %s',
         tbl,
         CASE WHEN EXISTS (SELECT 1 FROM information_schema.columns WHERE column_name='region' AND table_name=tbl) THEN 'region' ELSE E'\'unavailable\'' END,
