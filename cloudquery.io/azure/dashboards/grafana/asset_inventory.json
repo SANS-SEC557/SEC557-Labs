@@ -1,15 +1,15 @@
 {
   "__inputs": [
     {
-      "name": "DS_POSTGRESQL",
-      "label": "PostgreSQL",
+      "name": "DS_POSTGRES",
+      "label": "Postgres",
       "description": "",
       "type": "datasource",
       "pluginId": "postgres",
       "pluginName": "PostgreSQL"
     }
   ],
-  "__elements": [],
+  "__elements": {},
   "__requires": [
     {
       "type": "panel",
@@ -21,7 +21,13 @@
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
-      "version": "8.4.7"
+      "version": "9.2.0"
+    },
+    {
+      "type": "datasource",
+      "id": "graphite",
+      "name": "Graphite",
+      "version": "1.0.0"
     },
     {
       "type": "panel",
@@ -52,7 +58,10 @@
     "list": [
       {
         "builtIn": 1,
-        "datasource": "-- Grafana --",
+        "datasource": {
+          "type": "datasource",
+          "uid": "grafana"
+        },
         "enable": true,
         "hide": true,
         "iconColor": "rgba(0, 211, 255, 1)",
@@ -71,12 +80,14 @@
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
   "id": null,
-  "iteration": 1653764777747,
   "links": [],
   "liveNow": false,
   "panels": [
     {
-      "datasource": "${DS_POSTGRESQL}",
+      "datasource": {
+        "type": "postgres",
+        "uid": "${DS_POSTGRES}"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -116,9 +127,13 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "8.4.7",
+      "pluginVersion": "9.2.0",
       "targets": [
         {
+          "datasource": {
+            "type": "graphite",
+            "uid": "${DS_GRAPHITE}"
+          },
           "format": "table",
           "group": [],
           "metricColumn": "none",
@@ -131,7 +146,10 @@
       "type": "stat"
     },
     {
-      "datasource": "${DS_POSTGRESQL}",
+      "datasource": {
+        "type": "postgres",
+        "uid": "${DS_POSTGRES}"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -161,7 +179,8 @@
         ],
         "legend": {
           "displayMode": "list",
-          "placement": "bottom"
+          "placement": "bottom",
+          "showLegend": true
         },
         "pieType": "pie",
         "reduceOptions": {
@@ -179,6 +198,10 @@
       "pluginVersion": "8.4.7",
       "targets": [
         {
+          "datasource": {
+            "type": "graphite",
+            "uid": "${DS_GRAPHITE}"
+          },
           "format": "table",
           "group": [],
           "metricColumn": "none",
@@ -191,13 +214,18 @@
       "type": "piechart"
     },
     {
-      "datasource": "${DS_POSTGRESQL}",
+      "datasource": {
+        "type": "postgres",
+        "uid": "${DS_POSTGRES}"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
             "mode": "continuous-BlYlRd"
           },
           "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
             "axisSoftMin": 0,
@@ -240,7 +268,8 @@
         "legend": {
           "calcs": [],
           "displayMode": "list",
-          "placement": "bottom"
+          "placement": "bottom",
+          "showLegend": true
         },
         "orientation": "auto",
         "showValue": "auto",
@@ -255,6 +284,10 @@
       "pluginVersion": "8.4.7",
       "targets": [
         {
+          "datasource": {
+            "type": "graphite",
+            "uid": "${DS_GRAPHITE}"
+          },
           "format": "table",
           "group": [],
           "metricColumn": "none",
@@ -267,6 +300,10 @@
       "type": "barchart"
     },
     {
+      "datasource": {
+        "type": "postgres",
+        "uid": "${DS_POSTGRES}"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -274,7 +311,8 @@
           },
           "custom": {
             "align": "auto",
-            "displayMode": "auto"
+            "displayMode": "auto",
+            "inspect": false
           },
           "mappings": [],
           "thresholds": {
@@ -372,18 +410,18 @@
         "showHeader": true,
         "sortBy": []
       },
-      "pluginVersion": "8.4.7",
+      "pluginVersion": "9.2.0",
       "targets": [
         {
           "datasource": {
             "type": "postgres",
-            "uid": "${DS_POSTGRESQL}"
+            "uid": "${DS_POSTGRES}"
           },
           "format": "table",
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "select _cq_id, _cq_table, subscription_id, location, id, _cq_sync_time from azure_resources where subscription_id in (${subscription_ids}) and location in (${locations}) and _cq_table in (${cq_tables}) ;",
+          "rawSql": "select _cq_id, _cq_table, subscription_id, location, id from azure_resources where subscription_id in (${subscription_ids}) and location in (${locations}) and _cq_table in (${cq_tables}) ;",
           "refId": "A",
           "select": [
             [
@@ -409,7 +447,10 @@
       "type": "table"
     },
     {
-      "datasource": "${DS_POSTGRESQL}",
+      "datasource": {
+        "type": "postgres",
+        "uid": "${DS_POSTGRES}"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -424,8 +465,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               }
             ]
           }
@@ -452,6 +492,10 @@
       "pluginVersion": "8.4.7",
       "targets": [
         {
+          "datasource": {
+            "type": "graphite",
+            "uid": "${DS_GRAPHITE}"
+          },
           "format": "table",
           "group": [],
           "metricColumn": "none",
@@ -464,7 +508,10 @@
       "type": "table"
     },
     {
-      "datasource": "${DS_POSTGRESQL}",
+      "datasource": {
+        "type": "postgres",
+        "uid": "${DS_POSTGRES}"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -479,8 +526,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -536,6 +582,10 @@
       "pluginVersion": "8.4.7",
       "targets": [
         {
+          "datasource": {
+            "type": "graphite",
+            "uid": "${DS_GRAPHITE}"
+          },
           "format": "table",
           "group": [],
           "metricColumn": "none",
@@ -548,7 +598,7 @@
       "type": "table"
     }
   ],
-  "schemaVersion": 35,
+  "schemaVersion": 37,
   "style": "dark",
   "tags": [],
   "templating": {
@@ -557,7 +607,7 @@
         "current": {},
         "datasource": {
           "type": "postgres",
-          "uid": "${DS_POSTGRESQL}"
+          "uid": "${DS_POSTGRES}"
         },
         "definition": "select distinct(subscription_id) from azure_resources",
         "hide": 0,
@@ -576,7 +626,7 @@
         "current": {},
         "datasource": {
           "type": "postgres",
-          "uid": "${DS_POSTGRESQL}"
+          "uid": "${DS_POSTGRES}"
         },
         "definition": "select distinct(location) from azure_resources;",
         "hide": 0,
@@ -593,6 +643,10 @@
       },
       {
         "current": {},
+        "datasource": {
+          "type": "postgres",
+          "uid": "${DS_POSTGRES}"
+        },
         "definition": "select distinct(_cq_table) from azure_resources;",
         "hide": 0,
         "includeAll": true,
@@ -604,8 +658,7 @@
         "regex": "",
         "skipUrlSync": false,
         "sort": 0,
-        "type": "query",
-        "datasource": "${DS_POSTGRESQL}"
+        "type": "query"
       }
     ]
   },
