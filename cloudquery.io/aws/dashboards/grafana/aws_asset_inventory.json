@@ -7,14 +7,6 @@
       "type": "datasource",
       "pluginId": "postgres",
       "pluginName": "PostgreSQL"
-    },
-    {
-      "name": "DS_GRAPHITE",
-      "label": "Graphite",
-      "description": "",
-      "type": "datasource",
-      "pluginId": "graphite",
-      "pluginName": "Graphite"
     }
   ],
   "__elements": {},
