@@ -5,7 +5,6 @@ spec:
 
   tables: [
     "azure_authorization_role_assignments",
-    "azure_authorization_role_definitions",
     "azure_batch_accounts",
     "azure_cdn_profiles",
     "azure_compute_disks",
