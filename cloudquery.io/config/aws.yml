@@ -33,7 +33,6 @@ spec:
     "aws_ec2_subnets",
     "aws_ec2_transit_gateways",
     "aws_ec2_vpc_endpoint_service_configurations",
-    "aws_ec2_vpc_endpoint_services",
     "aws_ec2_vpc_endpoints",
     "aws_ec2_vpc_peering_connections",
     "aws_ec2_vpcs",
