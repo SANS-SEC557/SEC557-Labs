@@ -1,6 +1,5 @@
 policies:
  - name: azure-ingress-admin-ports-allowed
    resource: azure.networksecuritygroup
-   filters:
-     - type: ingress
+
 
