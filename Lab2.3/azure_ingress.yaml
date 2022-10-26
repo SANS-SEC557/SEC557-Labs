@@ -3,11 +3,4 @@ policies:
    resource: azure.networksecuritygroup
    filters:
      - type: ingress
-       ports: '22'
-       access: 'Allow'
-       source: '*'
-     - type: ingress
-       ports: '3398'
-       access: 'Allow'
-       source: '*'
 
