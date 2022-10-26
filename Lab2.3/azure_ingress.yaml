@@ -5,9 +5,9 @@ policies:
      - type: ingress
        ports: '22'
        access: 'Allow'
-       source: '*'
+       source: '0.0.0.0/0'
      - type: ingress
        ports: '3389'
        access: 'Allow'
-       source: '*'
+       source: '0.0.0.0/0'
 
